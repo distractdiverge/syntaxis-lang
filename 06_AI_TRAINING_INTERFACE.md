@@ -1,208 +1,222 @@
 # Syntaxis
-## 05_GLYPH_SYSTEM_SPEC
+## 06_AI_TRAINING_INTERFACE
 Version: v0.1-draft
-Status: Experimental Layer
-Depends-On: 01_SYNOPSIS_AND_INTENT.md
-            02_CORE_GRAMMAR_SPEC.md
-            03_LEXICON_ARCHITECTURE.md
-            04_META_LAYER_AND_COGNITIVE_ENCODING.md
+Status: Operational Interface Specification
+Depends-On: 01–05
 Last Updated: 2026-02-15
 
 ---
 
 # 1. Overview
 
-The Glyph System is a secondary visual layer for Syntaxis.
+This document defines how Syntaxis interfaces with AI systems, particularly:
 
-It is:
+- Local LLMs
+- Fine-tuned models
+- Translation adapters
+- Hybrid symbolic-LLM pipelines
 
-- Optional
-- Non-phonetic
-- Structurally symbolic
-- Optimized for rapid pattern recognition
-- Designed for cognitive compression
+Syntaxis must remain:
 
-Canonical ASCII remains authoritative.
-
-Glyphs are render-layer only.
-
----
-
-# 2. Design Principles
-
-Glyphs must:
-
-- Represent grammatical role clearly
-- Be visually distinct
-- Be minimal-stroke
-- Avoid cultural appropriation of existing scripts
-- Map 1:1 to canonical ASCII markers
-
-No ambiguity permitted between glyph and ASCII form.
+- Tokenization-friendly
+- Deterministic
+- Low-ambiguity
+- Expandable without retraining collapse
 
 ---
 
-# 3. Role Marker Glyphs
+# 2. Canonical Storage Format
 
-| ASCII | Glyph | Meaning |
-|--------|--------|----------|
-| -ta | ⊙ | Topic |
-| -ka | → | Agent |
-| -mo | ◇ | Direct Object |
-| -ri | ⇢ | Indirect |
-| -se | ⌂ | Locative |
-| -nu | ⚙ | Instrument |
+All Syntaxis text stored in corpus must:
+
+- Use ASCII only
+- Use explicit hyphen stacking
+- Use bracketed meta markers
+- Avoid glyph-only encoding
+
+Example canonical sentence:
+
+    Self-du-ta AI-ka intention-mo misinterpret-li-mi [mdl][pro=.4][conf=.6]
+
+---
+
+# 3. Tokenization Design Constraints
+
+To optimize transformer compatibility:
+
+- Use consistent delimiter (-)
+- Avoid camelCase
+- Avoid internal punctuation in roots
+- Avoid multi-token suffix variation
+
+Example (preferred):
+
+    clarify-li-mi
+
+Example (avoid):
+
+    clarifyLiMi
+    clarify.li.mi
+
+---
+
+# 4. Parallel Corpus Strategy
+
+To train or fine-tune a local model:
+
+## 4.1 Sentence Pair Format
+
+Recommended structure:
+
+JSONL format:
+
+{
+  "natural": "I think the model may fail.",
+  "syntaxis": "Model-ta fail-li-mi [mdl][pro=.5][conf=.6]"
+}
+
+---
+
+## 4.2 Progressive Corpus Stages
+
+Stage 1:
+- 500–1000 core parallel sentences
+- Cover grammar edge cases
+
+Stage 2:
+- 5,000+ domain-specific expansions
+
+Stage 3:
+- Journaling corpus (personal usage)
+
+Stage 4:
+- AI-generated augmentation with validation
+
+---
+
+# 5. Validation Rules for AI Output
+
+Any AI generating Syntaxis must validate:
+
+1. Exactly one primary epistemic marker
+2. Proper verb cluster order
+3. Proper meta marker order
+4. Valid role suffixes
+5. No illegal compounds
+
+Optional:
+- Probability bounds check
+- Confidence bounds check
+
+---
+
+# 6. Error Detection Protocol
+
+When AI produces invalid Syntaxis:
+
+System must:
+
+1. Identify structural violation
+2. Propose corrected version
+3. Log error type
 
 Example:
 
-    Self ⊙
-    AI →
-    Meaning ◇
-    clarify-in-ke
-    [mdl]
+Invalid:
+    clarify-mi-li
+
+Correction:
+    clarify-li-mi
 
 ---
 
-# 4. Number Glyph Indicators
+# 7. Prompting Interface Recommendations
 
-Number is indicated by superscript markers:
+When prompting LLMs:
 
-| ASCII | Glyph |
-|--------|--------|
-| -un | ¹ |
-| -du | ² |
-| -pl | ³ |
+Use explicit system instruction:
+
+"You must respond in canonical Syntaxis form."
+
+Provide grammar reminder block.
 
 Example:
 
-    Self² ⊙
+Allowed role markers:
+- -ta -ka -mo -ri -se -nu
 
-Meaning: Dual self (human + AI)
+Verb structure:
+VerbRoot + Aspect + Modality
 
----
-
-# 5. Aspect Glyphs
-
-Aspect may optionally be shown via diacritic overlay.
-
-| ASCII | Glyph |
-|--------|--------|
-| -in | ~ |
-| -tae | ✓ |
-| -li | ? |
-| -ra | ↑ |
-| -su | ∞ |
-
-Example:
-
-    clarify?~ke
-
-Meaning:
-Potential + ongoing (if stacked)
-
-ASCII remains canonical:
-
-    clarify-li-in-ke
+Meta markers mandatory.
 
 ---
 
-# 6. Modality Glyph Indicators
+# 8. Fine-Tuning Strategy
 
-| ASCII | Glyph |
-|--------|--------|
-| -ke | ! |
-| -mi | ? |
-| -zo | ∴ |
-| -ha | ♥ |
+Recommended approach:
 
-Example:
+1. Use base open-weight model
+2. Fine-tune for translation EN ↔ Syntaxis
+3. Add structural validator in post-processing
+4. Optionally train Syntaxis-only reasoning mode
 
-    detect✓∴
-    [obs]
-
----
-
-# 7. Meta Layer Glyphs (Optional Visual Compression)
-
-Meta markers may optionally collapse to glyph shorthand.
-
-| ASCII | Glyph |
-|--------|--------|
-| [obs] | 👁 |
-| [inf] | ∵ |
-| [mdl] | ⌘ |
-| [mem] | 🜂 |
-| [hyp] | △ |
-| [emo] | ♥ |
-
-Probability:
-    [pro=.6] → .6°
-
-Confidence:
-    [conf=.7] → .7✓
-
-Example:
-
-    Model ⊙
-    err ◇
-    detect✓∴
-    ∵ .6° .7✓
-
-ASCII canonical still required in storage.
+Avoid:
+- Training from scratch
+- Overloading with metaphorical data early
 
 ---
 
-# 8. Glyph Block Architecture (Future)
+# 9. Hybrid Symbolic Integration (Future)
 
-Inspired by Hangul:
+Future architecture may include:
 
-Potential future design:
+- Grammar parser → AST (abstract syntax tree)
+- Meta-layer analyzer
+- Probability consistency checker
+- Emotional trend tracker
 
-Block structure:
+Syntaxis can act as:
 
-    [Semantic Root]
-    [Number Marker]
-    [Role Marker]
-
-Stacked as geometric unit.
-
-Not implemented in v0.1.
+Structured intermediary representation between human thought and LLM.
 
 ---
 
-# 9. Rendering Rules
+# 10. Safety Considerations
 
-- Glyphs must never replace canonical ASCII in stored corpus.
-- Glyphs are presentation-layer only.
-- Glyph system must be reversible to ASCII.
-- No glyph-only expressions allowed.
+Meta-layer may expose emotional state and cognitive load.
+
+If used with persistent memory:
+
+- Protect journaling corpus
+- Encrypt personal Syntaxis logs
+- Avoid exposing raw dual-cognition data
 
 ---
 
-# 10. Architectural Decision Log (ADL)
+# 11. Architectural Decision Log (ADL)
 
-## ADL-019
-Decision: Glyph layer non-authoritative.
+## ADL-022
+Decision: JSONL parallel corpus format.
 Status: Approved
-Rationale: Preserve AI compatibility.
+Rationale: Compatibility with common fine-tuning pipelines.
 
-## ADL-020
-Decision: One-to-one mapping with ASCII markers.
+## ADL-023
+Decision: Hyphen delimiter standard.
 Status: Approved
-Rationale: Deterministic reversibility.
+Rationale: Tokenization clarity.
 
-## ADL-021
-Decision: Unicode allowed only in render layer.
+## ADL-024
+Decision: Post-generation validator required.
 Status: Approved
-Rationale: Avoid encoding issues.
+Rationale: Maintain structural integrity.
 
 ---
 
-# 11. Open Questions
+# 12. Open Questions
 
-- Should semantic radicals be designed?
-- Should glyph blocks be formalized?
-- Should emotional valence have dedicated symbol?
-- Should a handwritten form exist?
+- Should Syntaxis-only reasoning mode omit English entirely?
+- Should AST representation be standardized?
+- Should probabilistic markers integrate with Bayesian updating?
 
-To be resolved in future versions.
+To be explored in future iterations.
