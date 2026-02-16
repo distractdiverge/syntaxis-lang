@@ -1,9 +1,9 @@
 # Syntaxis
 ## 02_CORE_GRAMMAR_SPEC
-Version: v0.1-draft
+Version: v0.2-draft
 Status: Foundational Grammar
 Depends-On: 01_SYNOPSIS_AND_INTENT.md
-Last Updated: 2026-02-15
+Last Updated: 2026-02-16
 
 ---
 
@@ -11,14 +11,13 @@ Last Updated: 2026-02-15
 
 This document defines the deterministic grammatical core of Syntaxis.
 
-All valid Syntaxis sentences must conform to this specification.
-
-The grammar is:
+Syntaxis grammar is:
 - Agglutinative
-- Role-marked
-- Deterministic
-- ASCII canonical
-- Meta-layer compatible
+- Role-marked (Korean-inspired)
+- Deterministic and validator-friendly
+- ASCII canonical (glyphs are render-only)
+
+All valid Syntaxis sentences must conform to this specification.
 
 ---
 
@@ -28,68 +27,97 @@ Default canonical order:
 
     [Topic] [Role-Phrases] [Verb-Cluster] [Meta-Layer]
 
-Where:
-
-- Topic = entity under discussion
-- Role-Phrases = agent/object/etc.
-- Verb-Cluster = root + aspect + modality
-- Meta-Layer = epistemic + probability + confidence
-
-Order flexibility is allowed ONLY when role markers are present.
+When role markers are present, word order may vary without changing meaning.
+Default order is recommended for consistency.
 
 ---
 
-# 3. Role Markers (Grammatical Particles)
+# 3. Noun Phrase Form
+
+Canonical noun phrase form:
+
+    TERM [Classifier] [Event/State] [Number] [Role]
+
+Where:
+
+- TERM is a root or compound
+- Classifier is optional: `{class}`
+- Event/State is optional unless probability is used: `@E` or `@S`
+- Number is optional: `-un | -du | -pl`
+- Role is optional depending on sentence complexity
+
+Example:
+
+    intention{abs}@S-un-mo
+
+---
+
+# 4. Role Markers (Grammatical Particles)
 
 Role markers are suffixes appended to noun phrases.
 
 | Marker | Name        | Function |
-|---------|------------|----------|
-| -ta     | Topic      | Primary discourse focus |
-| -ka     | Agent      | Initiator of action |
-| -mo     | DirectObj  | Direct object |
-| -ri     | Indirect   | Beneficiary / recipient |
-| -se     | Locative   | Location / conceptual space |
-| -nu     | Instrument | Means / tool |
+|--------|------------|----------|
+| -ta    | Topic      | Primary discourse focus |
+| -ka    | Agent      | Initiator of action |
+| -mo    | DirectObj  | Direct object |
+| -ri    | Indirect   | Beneficiary / recipient |
+| -se    | Locative   | Location / conceptual space |
+| -nu    | Instrument | Means / tool |
 
-Role markers are mandatory for multi-argument sentences.
-
-Example:
-
-    Self-ta
-    AI-ka
-    Meaning-mo
-    clarify-in-ke
-    [mdl]
+Role markers are mandatory for multi-argument clauses.
 
 ---
 
-# 4. Number System
+# 5. Number System
 
-Number is marked directly on noun roots.
+Number markers:
 
 | Marker | Meaning |
-|---------|---------|
-| -un     | Singular |
-| -du     | Dual |
-| -pl     | Plural |
+|--------|---------|
+| -un    | Singular |
+| -du    | Dual |
+| -pl    | Plural |
 
-Example:
+Order rule (if used):
 
-    Self-du
-    = human + AI dyad
+    TERM{class}@E/-@S + NUMBER + ROLE
 
-Number markers precede role markers:
+Examples:
 
     Self-du-ta
-
-Order rule:
-
-    ROOT + NUMBER + ROLE
+    Model{sys}-un-ta
+    plan{proc}@S-un-mo
 
 ---
 
-# 5. Verb Cluster Structure
+# 6. Event/State Operators
+
+Event/State operators declare whether a term is being treated as:
+
+- `@E` Event (transition/occurrence)
+- `@S` State (condition/holding pattern)
+
+## 6.1 Probability rule
+If a sentence includes `[pro=...]`, at least one `@E` or `@S` must appear in that sentence.
+
+Rationale:
+Probability must attach to an event/state, not a vague untyped proposition.
+
+Examples:
+
+Valid:
+    Rain@E-ta begin-li-mi [hyp][pro=.6][conf=.5]
+
+Valid:
+    System@S-ta stable-in [mdl][pro=.7][conf=.6]
+
+Invalid (no @E/@S while using probability):
+    System-ta stable-in [mdl][pro=.7][conf=.6]
+
+---
+
+# 7. Verb Cluster Structure
 
 Verb clusters are strictly ordered:
 
@@ -99,209 +127,185 @@ No deviation permitted.
 
 ---
 
-## 5.1 Aspect Markers
+## 7.1 Aspect Markers
 
 | Marker | Meaning |
-|---------|---------|
-| -in     | Ongoing |
-| -tae    | Completed |
-| -li     | Potential |
-| -ra     | Emergent |
-| -su     | Habitual |
+|--------|---------|
+| -in    | Ongoing |
+| -tae   | Completed |
+| -li    | Potential |
+| -ra    | Emergent |
+| -su    | Habitual |
 
 ---
 
-## 5.2 Modality Markers
+## 7.2 Modality Markers
 
 | Marker | Meaning |
-|---------|---------|
-| -ke     | Intentional |
-| -mi     | Uncertain |
-| -zo     | Logical deduction |
-| -ha     | Emotional impulse |
+|--------|---------|
+| -ke    | Intentional |
+| -mi    | Uncertain |
+| -zo    | Logical deduction |
+| -ha    | Emotional impulse |
 
-Aspect MUST precede Modality.
+Aspect MUST precede modality.
 
 Valid:
-
     clarify-li-mi
 
 Invalid:
-
     clarify-mi-li
 
 ---
 
-# 6. Word Formation Rules
+# 8. Word Formation Rules
 
-## 6.1 Roots
-
-Roots:
-- 2–3 syllables
+## 8.1 Roots
+- 2–3 syllables preferred
 - No irregular forms
-- No internal silent characters
-- No tonal requirement (ASCII canonical)
+- Lowercase canonical
 
-## 6.2 Compounding
-
+## 8.2 Compounds
 Compound structure:
 
-    Root1-Root2
+    Root1-Root2(-Root3)
 
-Meaning flows left → right.
-
-Example:
-
-    men-syn
-    = structured mind
-
-Compounds may take role markers as a unit:
-
-    men-syn-un-ta
+Direction:
+Left = qualifier, Right = head.
 
 ---
 
-# 7. Topic–Comment Logic
+# 9. Topic Logic
 
-Topic marking (-ta) establishes discourse focus.
-
-If Topic is omitted, first noun defaults to Topic.
-
-Explicit Topic marking is preferred.
-
-Example:
-
-    Model-ta
-    Error-mo
-    detect-tae-zo
-    [obs]
+Topic is marked by `-ta`.
+If topic is omitted, the first noun phrase may be interpreted as topic by default, but explicit topic is preferred.
 
 ---
 
-# 8. Null Copula Rule
+# 10. Null Copula Rule
 
 Syntaxis omits "to be".
-
 State expressions use adjectival verbs.
 
 Example:
 
-Instead of:
-    System is stable
-
-Use:
-
-    System-ta
-    stable-in
-    [obs]
+    System@S-ta stable-in [obs]
 
 ---
 
-# 9. Sentence Requirements
+# 11. Procedural Mode (Deterministic Rhetorical Algorithms)
+
+Procedural Mode is a constrained sub-grammar for workflows.
+
+## 11.1 Reserved prefixes (ASCII)
+These prefixes are reserved:
+
+- `Proc:` optional label prefix (non-grammatical; metadata)
+- `Proc-ta` grammatical procedure topic
+- `Step=n:` step line prefix (n is integer starting at 1)
+- `Req:` requirement line prefix
+- `Inv:` invariant line prefix
+- `Out:` optional output label prefix (non-grammatical; metadata)
+- `Out-ta` grammatical output topic
+
+Reserved prefixes are line-initial tokens.
+
+## 11.2 Procedure header
+Canonical header form:
+
+    Proc-ta <proc-name>{proc}@S-mo define-ke [mdl]
+
+Example:
+
+    Proc-ta clarify-loop{proc}@S-mo define-ke [mdl]
+
+## 11.3 Steps
+Canonical step form:
+
+    Step=1: <sentence>
+
+Where <sentence> is a valid Syntaxis sentence (including meta marker).
+
+Example:
+
+    Step=1: Input{dat}@S-ta data{dat}-mo collect-ke [mdl]
+
+## 11.4 Requirements / Invariants
+Requirements:
+
+    Req: <sentence>
+
+Invariants:
+
+    Inv: <sentence>
+
+Example:
+
+    Req: Prompt{dat}@S-ta present@S-in [obs]
+    Inv: Meaning{abs}@S-ta preserve@S-in verify-ke [mdl][conf=.8]
+
+---
+
+# 12. Sentence Requirements
 
 A valid sentence must include:
-
-1. At least one noun phrase
-2. A verb cluster
-3. A meta-layer marker
-
-Meta-layer is mandatory.
+1) At least one term (noun phrase)
+2) A verb cluster (or an accepted state verb form)
+3) Exactly one primary epistemic marker in meta-layer
 
 ---
 
-# 10. Constraints
+# 13. Parsing Determinism
 
-- No irregular conjugation
-- No tense system (aspect only)
-- No gender marking
-- No articles
-- No hidden case marking
-- No agreement inflection beyond number
-
----
-
-# 11. Example Full Sentences
-
-Example 1:
-
-"I think AI may misunderstand my intention."
-
-    Self-du-ta
-    AI-ka
-    intention-mo
-    misinterpret-li-mi
-    [mdl][pro=.4][conf=.6]
+Parsing outline:
+1) Identify meta-layer tokens (bracketed)
+2) Identify verb cluster (last non-meta token)
+3) Parse noun phrases by suffix patterns
+4) Capture optional `{class}` and `@E/@S`
+5) Establish topic and build argument graph
+6) Apply probability rule validation (if [pro], ensure @E/@S)
 
 ---
 
-Example 2:
-
-"The data suggests the model failed."
-
-    Data-ta
-    model-mo
-    fail-tae-zo
-    [inf][conf=.7]
-
----
-
-Example 3:
-
-"I feel uncertain about the plan."
-
-    Self-un-ta
-    plan-se
-    uncertain-in-ha
-    [emo][conf=.5]
-
----
-
-# 12. Parsing Determinism
-
-Parsing algorithm:
-
-1. Identify all meta-layer markers
-2. Identify verb cluster (last non-meta token)
-3. Parse noun phrases by role suffix
-4. Establish topic
-5. Construct relational graph
-
----
-
-# 13. Architectural Decision Log (ADL)
+# 14. Architectural Decision Log (ADL)
 
 ## ADL-006
 Decision: Aspect-only temporal encoding.
 Status: Approved
-Rationale: Encourages process modeling over rigid time reference.
 
 ## ADL-007
 Decision: Verb cluster fixed order.
 Status: Approved
-Rationale: Deterministic parsing for AI systems.
 
 ## ADL-008
 Decision: Role markers mandatory for multi-argument clauses.
 Status: Approved
-Rationale: Eliminates word-order ambiguity.
-
-## ADL-009
-Decision: No gender marking.
-Status: Approved
-Rationale: Reduces unnecessary semantic complexity.
 
 ## ADL-010
 Decision: Null copula.
 Status: Approved
-Rationale: Structural simplicity and compression.
+
+## ADL-029
+Decision: Add `@E/@S` operators.
+Status: Approved
+
+## ADL-030
+Decision: Require `@E/@S` when `[pro]` used.
+Status: Approved
+
+## ADL-031
+Decision: Procedural Mode reserved prefixes and forms.
+Status: Approved
+
+## ADL-032
+Decision: Add optional classifier tags `{class}`.
+Status: Approved
 
 ---
 
-# 14. Open Questions
+# 15. Open Questions
 
-- Should modality be expandable?
-- Should negation be a particle or verb modifier?
-- Should conditional logic have dedicated markers?
-- Should embedded clauses be bracketed or stacked?
-
-To be resolved in future versions.
+- Negation design: particle vs verb modifier?
+- Conditionals in Procedural Mode (branching)?
+- Event subtypes (@E+, @E-, etc.)?
+- Clause embedding strategy (brackets vs stacking)?

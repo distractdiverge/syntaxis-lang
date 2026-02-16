@@ -1,10 +1,9 @@
 # Syntaxis
 ## 03_LEXICON_ARCHITECTURE
-Version: v0.1-draft
+Version: v0.2-draft
 Status: Foundational Lexicon System
-Depends-On: 01_SYNOPSIS_AND_INTENT.md
-            02_CORE_GRAMMAR_SPEC.md
-Last Updated: 2026-02-15
+Depends-On: 01, 02
+Last Updated: 2026-02-16
 
 ---
 
@@ -12,10 +11,7 @@ Last Updated: 2026-02-15
 
 This document defines how lexical items (roots and compounds) are created, extended, and governed in Syntaxis.
 
-Syntaxis does NOT allow uncontrolled vocabulary growth.
-
-Lexical expansion must follow structural constraints to preserve:
-
+Lexicon growth is controlled to preserve:
 - Determinism
 - Composability
 - AI learnability
@@ -25,60 +21,23 @@ Lexical expansion must follow structural constraints to preserve:
 
 # 2. Lexical Philosophy
 
-Lexicon must be:
-
-- Modular
-- Composable
-- Domain-extensible
-- Emotionally expressive
-- Abstraction-friendly
-
-Vocabulary is built from semantic roots rather than idiomatic phrases.
+- Prefer semantic primitives (roots) + compositional compounds
+- Avoid idioms and opaque metaphors in canonical form
+- Permit concise “procedural vocabulary” for algorithmic mode
+- Support optional disambiguation via classifiers `{class}`
 
 ---
 
 # 3. Root Construction Rules
 
-## 3.1 Phonotactic Constraints (ASCII Canonical)
-
-- Roots are 2–3 syllables
-- Consonant-Vowel (CV) structure preferred
-- No irregular spelling
+## 3.1 Canonical constraints
+- 2–3 syllables preferred
+- Lowercase ASCII
 - No silent characters
-- No diacritics in canonical form
-- Lowercase only
+- No diacritics
 
-Example valid roots:
-
-    syn
-    men
-    rel
-    dat
-    emo
-    pro
-    tem
-    mod
-    act
-    sen
-
----
-
-## 3.2 Root Semantic Density Rule
-
-Each root must represent a conceptual primitive.
-
-Roots must NOT encode:
-- Complete sentences
-- Idioms
-- Culture-specific metaphors
-
-Roots should represent:
-
-- Actions
-- States
-- Relations
-- Cognitive processes
-- Abstract domains
+## 3.2 Semantic density rule
+Each root maps to a conceptual primitive; avoid roots that encode full clauses.
 
 ---
 
@@ -86,230 +45,142 @@ Roots should represent:
 
 Compound structure:
 
-    Root1-Root2
+    Root1-Root2(-Root3)
 
-Semantic direction:
+Meaning flows left → right (rightmost is head).
 
-    Left = qualifier
-    Right = head
-
-Examples:
-
-    men-syn
-    = structured mind
-
-    dat-sen
-    = perceived data
-
-    emo-rel
-    = emotional relation
-
----
-
-## 4.1 Multi-Compound Rule
-
-Compounds may extend:
-
-    Root1-Root2-Root3
-
-Example:
-
-    men-rel-mod
-    = modeled mental relationship
-
-Compounds exceeding 3 roots require justification in the Architectural Decision Log.
+Default maximum: 3 roots.
+Compounds exceeding 3 roots require ADL justification.
 
 ---
 
 # 5. Word Class Behavior
 
-Syntaxis does not have strict noun/verb/adjective classes.
-
-Roots may function as:
-
-- Noun (when role-marked)
-- Verb (when used in verb cluster)
-- Modifier (when compounded)
-
-Example:
-
-    stable (root)
-
-As verb:
-    stable-in
-
-As noun:
-    stable-un-ta
-
-As compound modifier:
-    system-stable
+No strict noun/verb/adjective classes.
+Roots can serve as:
+- Term (with role markers)
+- Verb root (in verb cluster)
+- Modifier (as compound component)
 
 ---
 
-# 6. Reserved Core Roots (v0.1 Seed Set)
+# 6. Disambiguation Classifiers `{class}`
 
-These roots are foundational and cannot be redefined.
+Classifier tags are optional and do not change grammar, only meaning clarity.
 
-| Root | Meaning |
-|------|---------|
-| syn  | structure |
-| men  | mind |
-| rel  | relation |
-| dat  | data |
-| sen  | perception |
-| mod  | model |
-| pro  | probability |
-| emo  | emotion |
-| act  | action |
-| tem  | process/time |
-| val  | value |
-| err  | error |
-| sys  | system |
-| cla  | clarity |
-| con  | confidence |
-| hyp  | hypothesis |
-| mem  | memory |
-| obs  | observation |
-| inf  | inference |
+Form:
+
+    term{class}
+
+Controlled class set (v0.2):
+- {ent} entity/agent
+- {abs} abstract concept
+- {proc} procedure/process artifact
+- {dat} data artifact
+- {emo} emotional construct
+- {rel} relation/edge
+- {sys} system/technical construct
+
+Expansion requires ADL entry.
 
 ---
 
-# 7. Abstract Vocabulary Layer
+# 7. Event/State Operators as Lexical Practice
 
-Abstract concepts must be constructed via compounding.
+`@E/@S` are grammatical operators (not lexical roots), but lexicon should support event/state phrasing:
 
-Example:
+- Prefer verb roots that naturally encode transitions for `@E`
+- Prefer state descriptors for `@S`
 
-    uncertainty
-
-Becomes:
-
-    pro-low
-
-Or:
-
-    con-low
-
-No opaque lexicalization allowed unless justified.
+Example pairings:
+- begin@E, stop@E, shift@E
+- stable@S, present@S, available@S
 
 ---
 
-# 8. Emotional Lexicon
+# 8. Procedural Vocabulary
 
-Emotional states are roots, not adjectives.
+Procedural Mode requires a stable verb set.
 
-Examples:
-
-    calm
-    fear
-    tension
-    trust
-    doubt
-
-Emotional nuance may be created via compounding:
-
-    fear-low
-    tension-high
-    trust-fragile
-
----
-
-# 9. Expansion Protocol
-
-To introduce a new root:
-
-1. Define semantic scope.
-2. Confirm no existing compound covers the concept.
-3. Document in ADL.
-4. Assign version tag.
-
-No synonym redundancy allowed without justification.
+Seed procedural verbs (v0.2):
+- define
+- collect
+- reduce
+- transform
+- compare
+- select
+- apply
+- verify
+- loop
+- stop
+- emit
 
 ---
 
-# 10. Forbidden Patterns
+# 9. Reserved Seed Roots (v0.2)
 
-- Irregular morphology
-- Gendered lexical roots
-- Cultural idioms
-- Redundant synonyms
-- Silent etymology references
+Foundational roots (do not redefine):
 
----
-
-# 11. Example Lexical Constructions
-
-Example 1:
-
-    Self-du-ta
-    AI-ka
-    men-rel-mo
-    clarify-li-mi
-    [mdl]
-
-Example 2:
-
-    sys-ta
-    err-mo
-    detect-tae-zo
-    [obs][conf=.8]
-
-Example 3:
-
-    men-un-ta
-    emo-tension-mo
-    increase-ra
-    [emo]
+syn  structure
+men  mind
+rel  relation
+dat  data
+sen  perception
+mod  model
+pro  probability
+emo  emotion
+act  action
+tem  process/time
+val  value
+err  error
+sys  system
+cla  clarity
+con  confidence
+hyp  hypothesis
+mem  memory
+obs  observation
+inf  inference
 
 ---
 
-# 12. AI Training Considerations
+# 10. Expansion Protocol
 
-Lexical structure must:
+To add a new root:
+1) Define semantic scope
+2) Confirm no existing compound covers it
+3) Add ADL entry
+4) Provide ≥10 example sentences in corpus
 
-- Minimize polysemy
-- Avoid homophones
-- Maintain stable semantic mapping
-- Be easily tokenizable
-- Prefer short roots
-
-Corpus building should favor:
-
-- Parallel sentence generation
-- Root usage consistency
-- Compound frequency balance
+No synonym redundancy without explicit justification.
 
 ---
 
-# 13. Architectural Decision Log (ADL)
+# 11. Architectural Decision Log (ADL)
 
 ## ADL-011
-Decision: Roots limited to 2–3 syllables.
+Decision: Roots limited to 2–3 syllables preferred.
 Status: Approved
-Rationale: Compression + token efficiency.
 
 ## ADL-012
 Decision: No strict word class separation.
 Status: Approved
-Rationale: Simplifies grammar and AI training.
 
 ## ADL-013
-Decision: Compounds limited to max 3 roots by default.
+Decision: Default compound limit of 3 roots.
 Status: Approved
-Rationale: Prevents semantic overloading.
 
-## ADL-014
-Decision: Reserved seed root set defined.
+## ADL-032
+Decision: Controlled classifier tags `{class}`.
 Status: Approved
-Rationale: Stable foundation for expansion.
+
+## ADL-031
+Decision: Procedural vocabulary seed set.
+Status: Approved
 
 ---
 
-# 14. Open Questions
+# 12. Open Questions
 
-- Should emotional valence be a lexical modifier or meta-layer only?
-- Should intensity be lexicalized or numeric?
-- Should metaphorical compounds be allowed?
-- Should domain-specific root namespaces exist?
-
-To be resolved in later versions.
+- Should classifier tags be mandatory in Procedural Mode?
+- Should an official synonym policy exist (e.g., “discouraged synonyms”)?
+- When to add Quechua-style evidential compression forms?

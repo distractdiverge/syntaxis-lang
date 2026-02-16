@@ -1,222 +1,157 @@
 # Syntaxis
 ## 06_AI_TRAINING_INTERFACE
-Version: v0.1-draft
+Version: v0.2-draft
 Status: Operational Interface Specification
 Depends-On: 01–05
-Last Updated: 2026-02-15
+Last Updated: 2026-02-16
 
 ---
 
 # 1. Overview
 
-This document defines how Syntaxis interfaces with AI systems, particularly:
+This document defines how Syntaxis interfaces with AI systems:
 
 - Local LLMs
-- Fine-tuned models
-- Translation adapters
-- Hybrid symbolic-LLM pipelines
+- Fine-tuning and translation adapters
+- Validator + parser pipelines
+- Corpus storage requirements
 
 Syntaxis must remain:
-
-- Tokenization-friendly
 - Deterministic
-- Low-ambiguity
-- Expandable without retraining collapse
+- Tokenization-friendly
+- Validatable via simple rules
 
 ---
 
 # 2. Canonical Storage Format
 
-All Syntaxis text stored in corpus must:
-
+All stored Syntaxis must:
 - Use ASCII only
-- Use explicit hyphen stacking
+- Use hyphen stacking for compounds/modifiers
 - Use bracketed meta markers
-- Avoid glyph-only encoding
+- Store procedural mode in plain text lines with reserved prefixes
+- Not store glyphs
 
-Example canonical sentence:
-
-    Self-du-ta AI-ka intention-mo misinterpret-li-mi [mdl][pro=.4][conf=.6]
+Example:
+    Self-du-ta AI-ka intention{abs}@S-mo misinterpret@E-li-mi [mdl][pro=.4][conf=.6]
 
 ---
 
-# 3. Tokenization Design Constraints
+# 3. Tokenization Constraints
 
-To optimize transformer compatibility:
+Prefer:
+- Hyphen delimiter for compounding: men-syn
+- Suffix particles: -ta -ka -mo -ri -se -nu
+- Operator tokens: @E @S
+- Classifier braces: {sys} etc.
+- Bracket meta tokens: [mdl][pro=.4]...
 
-- Use consistent delimiter (-)
-- Avoid camelCase
-- Avoid internal punctuation in roots
-- Avoid multi-token suffix variation
-
-Example (preferred):
-
-    clarify-li-mi
-
-Example (avoid):
-
-    clarifyLiMi
-    clarify.li.mi
+Avoid:
+- CamelCase
+- Mixed punctuation inside roots
+- Multiple competing delimiters
 
 ---
 
 # 4. Parallel Corpus Strategy
 
-To train or fine-tune a local model:
-
-## 4.1 Sentence Pair Format
-
-Recommended structure:
-
-JSONL format:
-
+Recommended JSONL:
 {
-  "natural": "I think the model may fail.",
-  "syntaxis": "Model-ta fail-li-mi [mdl][pro=.5][conf=.6]"
+  "natural": "I suspect the model may fail.",
+  "syntaxis": "Model{sys}-ta fail@E-li-mi [inf][pro=.5][conf=.6]"
 }
 
----
-
-## 4.2 Progressive Corpus Stages
-
-Stage 1:
-- 500–1000 core parallel sentences
-- Cover grammar edge cases
-
-Stage 2:
-- 5,000+ domain-specific expansions
-
-Stage 3:
-- Journaling corpus (personal usage)
-
-Stage 4:
-- AI-generated augmentation with validation
+Include procedural examples as multi-line strings if needed.
 
 ---
 
-# 5. Validation Rules for AI Output
+# 5. Validator Requirements (v0.2)
 
-Any AI generating Syntaxis must validate:
+A validator must check:
 
-1. Exactly one primary epistemic marker
-2. Proper verb cluster order
-3. Proper meta marker order
-4. Valid role suffixes
-5. No illegal compounds
-
-Optional:
-- Probability bounds check
-- Confidence bounds check
+1) Exactly one primary epistemic marker exists
+2) Meta marker ordering is correct
+3) Verb cluster order is VerbRoot + Aspect + Modality
+4) Role markers are valid
+5) If [pro=...] exists, at least one @E or @S exists in sentence
+6) Classifiers, if present, are in approved set
+7) Procedural lines:
+   - Proc header includes Proc-ta ... define-ke [mdl]
+   - Step=n: has integer n and valid sentence after prefix
+   - Req:/Inv: lines contain valid sentences
 
 ---
 
-# 6. Error Detection Protocol
+# 6. Error Correction Protocol
 
-When AI produces invalid Syntaxis:
-
-System must:
-
-1. Identify structural violation
-2. Propose corrected version
-3. Log error type
+On invalid output:
+1) Identify rule violated
+2) Propose corrected form
+3) Log error type (for future fine-tuning)
 
 Example:
-
 Invalid:
-    clarify-mi-li
-
-Correction:
-    clarify-li-mi
+    System-ta stable-in [mdl][pro=.7][conf=.6]
+Fix:
+    System@S-ta stable-in [mdl][pro=.7][conf=.6]
 
 ---
 
-# 7. Prompting Interface Recommendations
+# 7. Prompting Recommendations
 
-When prompting LLMs:
+System instruction snippet:
+- “Respond only in canonical Syntaxis ASCII.”
+- “Include exactly one epistemic marker per sentence.”
+- “If you use [pro], include @E or @S.”
+- “Use procedural reserved prefixes when describing workflows.”
 
-Use explicit system instruction:
-
-"You must respond in canonical Syntaxis form."
-
-Provide grammar reminder block.
-
-Example:
-
-Allowed role markers:
-- -ta -ka -mo -ri -se -nu
-
-Verb structure:
-VerbRoot + Aspect + Modality
-
-Meta markers mandatory.
+Provide a short grammar reminder block and 3–5 examples.
 
 ---
 
 # 8. Fine-Tuning Strategy
 
-Recommended approach:
-
-1. Use base open-weight model
-2. Fine-tune for translation EN ↔ Syntaxis
-3. Add structural validator in post-processing
-4. Optionally train Syntaxis-only reasoning mode
+Recommended:
+- Train EN ↔ Syntaxis translation adapter
+- Add post-generation validator
+- Iterate corpus with error-driven examples
 
 Avoid:
 - Training from scratch
-- Overloading with metaphorical data early
+- Introducing glyph-only training data early
 
 ---
 
-# 9. Hybrid Symbolic Integration (Future)
-
-Future architecture may include:
-
-- Grammar parser → AST (abstract syntax tree)
-- Meta-layer analyzer
-- Probability consistency checker
-- Emotional trend tracker
-
-Syntaxis can act as:
-
-Structured intermediary representation between human thought and LLM.
-
----
-
-# 10. Safety Considerations
-
-Meta-layer may expose emotional state and cognitive load.
-
-If used with persistent memory:
-
-- Protect journaling corpus
-- Encrypt personal Syntaxis logs
-- Avoid exposing raw dual-cognition data
-
----
-
-# 11. Architectural Decision Log (ADL)
+# 9. Architectural Decision Log (ADL)
 
 ## ADL-022
 Decision: JSONL parallel corpus format.
 Status: Approved
-Rationale: Compatibility with common fine-tuning pipelines.
 
 ## ADL-023
 Decision: Hyphen delimiter standard.
 Status: Approved
-Rationale: Tokenization clarity.
 
 ## ADL-024
 Decision: Post-generation validator required.
 Status: Approved
-Rationale: Maintain structural integrity.
+
+## ADL-030
+Decision: Probability requires @E/@S validation rule.
+Status: Approved
+
+## ADL-031
+Decision: Procedural mode included in canonical corpus.
+Status: Approved
+
+## ADL-032
+Decision: Classifier tags validated against controlled set.
+Status: Approved
 
 ---
 
-# 12. Open Questions
+# 10. Open Questions
 
-- Should Syntaxis-only reasoning mode omit English entirely?
-- Should AST representation be standardized?
-- Should probabilistic markers integrate with Bayesian updating?
-
-To be explored in future iterations.
+- Should Procedural Mode support branching (if/else) in v0.x?
+- Should validator output a structured AST format standard?
+- When to add optional compact evidential suffix encoding (Quechua-inspired)?

@@ -1,53 +1,63 @@
 # Syntaxis
 ## 08_CANONICAL_WORDS_AND_PHRASES
-Version: v0.1-draft
+Version: v0.2-draft
 Status: Seed Corpus
 Depends-On: 01–07
-Last Updated: 2026-02-15
+Last Updated: 2026-02-16
 
 ---
 
 # 1. Overview
 
-This document defines:
-
-- Established canonical roots
+This document provides:
+- Established roots (v0.2)
 - Approved compounds
-- Standard example phrases
-- Fully valid example sentences
-- Journaling templates
-- AI interaction examples
+- Classifier set examples
+- Event/State operator examples
+- Procedural Mode examples
+- Canonical sentence templates
 
-All entries conform to Grammar v0.1.
+All examples conform to Grammar v0.2.
 
 ---
 
-# 2. Established Core Roots (v0.1)
+# 2. Controlled Classifier Set (v0.2)
+
+- {ent} entity/agent
+- {abs} abstract concept
+- {proc} procedure/process artifact
+- {dat} data artifact
+- {emo} emotional construct
+- {rel} relation/edge
+- {sys} system/technical construct
+
+---
+
+# 3. Established Core Roots (v0.2)
 
 ## Cognitive / Structural
 
-syn   = structure
-men   = mind
-rel   = relation
-mod   = model
-dat   = data
-sen   = perception
-act   = action
-tem   = process
-sys   = system
-err   = error
-cla   = clarity
-con   = confidence
-pro   = probability
-val   = value
-hyp   = hypothesis
-mem   = memory
-obs   = observation
-inf   = inference
+syn   structure
+men   mind
+rel   relation
+dat   data
+sen   perception
+mod   model
+pro   probability
+emo   emotion
+act   action
+tem   process/time
+val   value
+err   error
+sys   system
+cla   clarity
+con   confidence
+hyp   hypothesis
+mem   memory
+obs   observation
+inf   inference
 
----
-
-## Emotional Roots
+## Emotional Roots (seed)
 
 calm
 fear
@@ -61,9 +71,7 @@ sad
 focus
 drift
 
----
-
-## Functional Verbs
+## Functional Verbs (seed)
 
 clarify
 detect
@@ -78,199 +86,155 @@ misinterpret
 observe
 model
 remember
+verify
+
+## Procedural Verbs (v0.2)
+
+define
+collect
+reduce
+transform
+compare
+select
+apply
+verify
+loop
+stop
+emit
 
 ---
 
-# 3. Approved Compounds (v0.1)
+# 4. Approved Compounds (v0.2)
 
-men-syn        = structured mind
-men-rel        = mental relation
-dat-sen        = perceived data
-sys-stable     = system stability
-pro-low        = low probability
-con-low        = low confidence
-emo-tension    = emotional tension
-emo-overload   = emotional overload
-plan-model     = modeled plan
-self-ai        = human-AI dyad concept (lexical convenience only)
+men-syn              structured mind
+men-rel              mental relation
+dat-sen              perceived data
+sys-stable           system stability
+emo-tension          emotional tension
+emo-overload         emotional overload
+plan-model           modeled plan
+reasoning-trace      reasoning trace (AI output artifact)
+prompt-spec          prompt specification (data artifact)
 
 ---
 
-# 4. Standard Phrase Templates
+# 5. Event/State Operator Templates
 
-## 4.1 Observation
+## 5.1 Probability requires @E/@S
 
-    X-ta Y-mo detect-tae-zo [obs]
+Valid:
+    System{sys}@S-ta stable-in [mdl][pro=.7][conf=.6]
+
+Valid:
+    Model{sys}-ta fail@E-li-mi [inf][pro=.5][conf=.6]
+
+Invalid:
+    Model{sys}-ta fail-li-mi [inf][pro=.5][conf=.6]
+
+---
+
+# 6. Standard Sentence Templates
+
+## 6.1 Observation
+
+    X@S-ta Y-mo detect-tae-zo [obs][conf=.X]
 
 Example:
+    Data{dat}@S-ta err{abs}-mo detect-tae-zo [obs][conf=.9]
 
-    Data-ta err-mo detect-tae-zo [obs][conf=.9]
+## 6.2 Inference with probability (event)
 
----
-
-## 4.2 Inference
-
-    X-ta Y-mo fail-li-mi [inf][pro=.X][conf=.Y]
+    X-ta Y@E-li-mi [inf][pro=.X][conf=.Y]
 
 Example:
+    Model{sys}-ta fail@E-li-mi [inf][pro=.5][conf=.6]
 
-    Model-ta fail-li-mi [inf][pro=.4][conf=.6]
+## 6.3 Emotional report
 
----
+    Self{ent}-un-ta emo-overload{emo}-mo increase-in-ha [emo][val=-.8][load=high]
 
-## 4.3 Emotional State
+## 6.4 Memory
 
-    Self-un-ta emo-tension-mo increase-in-ha [emo][val=-.6]
-
----
-
-## 4.4 Memory
-
-    Self-un-ta emo-fear-mo experience-tae [mem][conf=.8]
+    Self{ent}-un-ta emo-fear{emo}-mo experience-tae [mem][conf=.8]
 
 ---
 
-## 4.5 Dyadic Reasoning
+# 7. AI Interaction Examples
 
-    Self-du-ta plan-mo evaluate-in-zo [mdl][pro=.6][conf=.7]
+## 7.1 Ask AI to clarify reasoning
 
----
+    AI{ent}-ka reasoning-trace{dat}-mo clarify-ke [mdl]
 
-# 5. Canonical Sentence Examples
+## 7.2 Report mismatch between intention and output (event)
 
-## 5.1 Cognitive Uncertainty
+    Self{ent}-un-ta mismatch{rel}@E-mo detect-tae-zo [inf][pro=.6][conf=.7]
 
-"I suspect the system may fail."
+## 7.3 Request a revised prompt (procedural output)
 
-    System-ta fail-li-mi [inf][pro=.5][conf=.6]
-
----
-
-## 5.2 Emotional Awareness
-
-"I feel overwhelmed."
-
-    Self-un-ta emo-overload-mo increase-in-ha [emo][val=-.8][load=high]
+    AI{ent}-ka prompt-spec{dat}@S-mo emit-ke [mdl][conf=.7]
 
 ---
 
-## 5.3 Analytical Reflection
+# 8. Procedural Mode Example (v0.2)
 
-"The model appears inconsistent."
+Proc-ta clarify-loop{proc}@S-mo define-ke [mdl]
 
-    Model-ta rel-cla-mo decrease-in-zo [inf][pro=.6][conf=.7]
+Req: Prompt{dat}@S-ta present@S-in verify-ke [obs]
 
----
+Step=1: Self{ent}-du-ta intention{abs}@S-mo state-ke [mdl][conf=.7]
+Step=2: AI{ent}-ka meaning{abs}@S-mo reflect-ke [mdl]
+Step=3: Self{ent}-un-ta mismatch{rel}@E-mo detect-tae-zo [inf][pro=.5][conf=.6]
+Step=4: Self{ent}-un-ta constraint{abs}@S-mo add-ke [mdl]
+Step=5: Out-ta revised-prompt{dat}@S-mo emit-ke [mdl]
 
-## 5.4 Journaling Example
-
-"I am noticing rising tension about the project."
-
-    Self-un-ta
-    emo-tension-mo
-    increase-ra
-    [obs][val=-.5][load=.6]
+Inv: Meaning{abs}@S-ta preserve@S-in verify-ke [mdl][conf=.8]
 
 ---
 
-## 5.5 Dual Cognition
+# 9. Structured Journaling Template
 
-"We are analyzing the plan."
+Daily (minimal):
 
-    Self-du-ta
-    plan-mo
-    evaluate-in-zo
-    [mdl][conf=.8]
+    Self{ent}-un-ta
+    focus{emo}@S-mo evaluate-in-zo
+    [mdl][conf=.7][load=.5]
 
----
+Daily (probability-aware decision):
 
-# 6. AI Interaction Templates
-
-## 6.1 Query to AI
-
-"What is the probability this plan succeeds?"
-
-    Plan-ta
-    success-li-mi
-    evaluate-ke
-    [hyp]
+    Self{ent}-un-ta
+    plan{proc}@S-mo select-ke
+    success{abs}@E-li-mi
+    [hyp][pro=.6][conf=.6][cla=.6]
 
 ---
 
-## 6.2 Request Clarification
-
-"Clarify your reasoning."
-
-    AI-ka
-    reasoning-mo
-    clarify-ke
-    [mdl]
-
----
-
-## 6.3 Error Correction
-
-"You misunderstood my intention."
-
-    AI-ka
-    intention-mo
-    misinterpret-tae
-    [inf][conf=.8]
-
----
-
-# 7. Structured Journaling Template
-
-Daily entry structure:
-
-    Self-un-ta
-    [primary cognitive state]
-    [primary emotional state]
-    [primary action evaluation]
-    [meta-layer]
-
-Example:
-
-    Self-un-ta
-    plan-mo
-    unclear-in-mi
-    emo-doubt-mo
-    increase-in-ha
-    [mdl][pro=.4][val=-.4][load=.7]
-
----
-
-# 8. Validation Checklist for Examples
-
-Each example must:
-
-- Follow verb cluster ordering
-- Include exactly one primary epistemic marker
-- Follow meta-layer ordering
-- Use valid role markers
-- Avoid illegal compound stacking
-
----
-
-# 9. Architectural Decision Log (ADL)
+# 10. Architectural Decision Log (ADL)
 
 ## ADL-027
 Decision: Canonical example corpus required.
 Status: Approved
-Rationale: Provides stable training and reference base.
 
 ## ADL-028
-Decision: Seed lexicon frozen for v0.1.
+Decision: Seed lexicon frozen for v0.1/v0.2 baseline.
 Status: Approved
-Rationale: Prevent early drift.
+
+## ADL-030
+Decision: Probability requires @E/@S in examples and training corpus.
+Status: Approved
+
+## ADL-031
+Decision: Procedural Mode examples included in seed corpus.
+Status: Approved
+
+## ADL-032
+Decision: Classifier tags demonstrated in canonical examples.
+Status: Approved
 
 ---
 
-# 10. Open Questions
+# 11. Open Questions
 
-- Should conversational shorthand be allowed?
-- Should common phrases be pre-compressed?
-- Should journaling mode auto-suggest meta markers?
-- Should dual cognition have lexical shorthand beyond number marking?
-
-Future versions may expand example corpus.
+- Add additional procedural verbs (normalize, summarize, rank)?
+- Add a reported/hearsay epistemic marker ([rep])?
+- Add event subtypes (@E+ onset, @E- stop)?
+- Add official shorthand macros (non-canonical) for journaling?

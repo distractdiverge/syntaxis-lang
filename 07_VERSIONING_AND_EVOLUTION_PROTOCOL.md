@@ -1,173 +1,128 @@
 # Syntaxis
 ## 07_VERSIONING_AND_EVOLUTION_PROTOCOL
-Version: v0.1-stub
+Version: v0.2-stub
 Status: Structural Stub
 Depends-On: 01–06
-Last Updated: 2026-02-15
+Last Updated: 2026-02-16
 
 ---
 
 # 1. Overview
 
-This document defines how Syntaxis evolves without fragmentation.
+This document governs evolution of Syntaxis without fragmentation.
 
 Syntaxis must avoid:
-
 - Grammar drift
 - Lexical chaos
-- Backward incompatibility
-- Uncontrolled expansion
-
-This file establishes governance scaffolding.
+- Backward incompatibility surprises
+- Uncontrolled marker proliferation
 
 ---
 
 # 2. Versioning Model
 
-Version format:
+Semantic versioning:
 
     MAJOR.MINOR.PATCH
 
-Example:
-
-    0.1.0
-
-Meaning:
-
 MAJOR:
-    Breaking grammar change
+- Breaking grammar change
+- Changes to role markers, meta rules, @E/@S, or procedural reserved forms
 
 MINOR:
-    Additive feature change (new roots, markers)
+- Additive features (new roots, new classifier tags, new procedural verbs)
 
 PATCH:
-    Clarification, documentation, examples
+- Documentation clarifications and examples; no structural changes
 
 ---
 
-# 3. Backward Compatibility Policy
+# 3. Backward Compatibility
 
-MAJOR version increments allowed only if:
-
-- Grammar restructured
-- Role markers changed
-- Meta-layer ordering changed
-
-MINOR version increments allowed for:
-
-- New roots
-- New modality markers
-- Extended glyph mapping
-
-PATCH increments allowed for:
-
-- Documentation clarification
-- Typo corrections
-- Additional examples
+- MAJOR changes require explicit migration guide and validator modes.
+- Deprecated elements must remain parseable for one MAJOR cycle.
 
 ---
 
-# 4. Architectural Decision Log Governance
+# 4. ADL Governance
 
 All structural changes require:
-
-1. New ADL entry
-2. Rationale
-3. Tradeoff analysis
-4. Impact analysis
-5. Compatibility note
+- ADL entry with rationale
+- Tradeoff notes
+- Compatibility impact statement
+- Test corpus additions
 
 No structural change without ADL.
 
 ---
 
-# 5. Experimental Branching
+# 5. Experimental Proposals
 
-Experimental proposals must:
+Experimental items must be labeled:
 
-- Be documented as EXP-### entries
-- Include rollback plan
-- Include test corpus
+    EXP-###: <title>
 
-Example:
-
-EXP-001:
-Proposal to add conditional marker -if
-
-Status:
-Testing
+Include:
+- Proposed syntax
+- Validator rules
+- Example sentences (>=10)
+- Rollback plan
 
 ---
 
-# 6. Deprecation Policy
+# 6. Lexicon Expansion Governance
 
-Deprecated elements must:
+New roots require:
+- Scope definition
+- Non-overlap check
+- ADL entry
+- ≥10 example sentences
 
-1. Remain parseable for one full MAJOR cycle
-2. Be clearly marked in documentation
-3. Include migration guidance
-
----
-
-# 7. Lexical Expansion Governance
-
-New root additions require:
-
-- Semantic justification
-- Non-overlap confirmation
-- Corpus demonstration (≥ 10 valid sentences)
-
-Compounds do not require version bump unless exceeding constraints.
+New classifier tags require:
+- Controlled set update
+- ADL entry
+- Ambiguity rationale
 
 ---
 
-# 8. Corpus Integrity
+# 7. Corpus Integrity
 
-All stored Syntaxis corpora must include:
+All corpora should include headers:
 
-- Version header
-- Grammar version tag
-- Validation checksum (future)
+    # Syntaxis vX.Y.Z
+    # Grammar: 02 vX.Y
+    # Meta: 04 vX.Y
 
-Example header:
-
-    # Syntaxis v0.1.0
-    # Grammar: 02_CORE_GRAMMAR_SPEC v0.1
-    # Meta-Layer: 04_META_LAYER v0.1
+Procedural corpora may include multi-line blocks.
 
 ---
 
-# 9. Future Governance Considerations (Stub)
-
-To be defined:
-
-- Formal review process
-- Multi-agent contribution model
-- Automated grammar validator
-- Semantic drift detection
-- AI-assisted lexicon audit
-
----
-
-# 10. Architectural Decision Log (ADL)
+# 8. Architectural Decision Log (ADL)
 
 ## ADL-025
-Decision: Semantic versioning model adopted.
+Decision: Semantic versioning adopted.
 Status: Approved
-Rationale: Align with software engineering best practices.
 
 ## ADL-026
 Decision: All structural changes require ADL entry.
 Status: Approved
-Rationale: Prevent uncontrolled drift.
+
+## ADL-029
+Decision: @E/@S operators added (structural).
+Status: Approved
+
+## ADL-031
+Decision: Procedural mode added (structural).
+Status: Approved
+
+## ADL-032
+Decision: Classifier tags added (structural).
+Status: Approved
 
 ---
 
-# 11. Open Questions
+# 9. Open Questions
 
-- Should Syntaxis have a formal RFC-style proposal process?
-- Should a grammar freeze milestone exist?
-- Should experimental features be auto-expired?
-- Should lexicon namespaces be versioned?
-
-Future versions will expand this document.
+- Should Syntaxis adopt a formal RFC directory structure?
+- Should experimental features expire automatically?
+- When to schedule “grammar freeze” milestone?

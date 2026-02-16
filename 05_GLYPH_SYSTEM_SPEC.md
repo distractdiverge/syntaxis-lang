@@ -1,133 +1,102 @@
 # Syntaxis
 ## 05_GLYPH_SYSTEM_SPEC
-Version: v0.1-draft
-Status: Experimental Layer
-Depends-On: 01_SYNOPSIS_AND_INTENT.md
-            02_CORE_GRAMMAR_SPEC.md
-            03_LEXICON_ARCHITECTURE.md
-            04_META_LAYER_AND_COGNITIVE_ENCODING.md
-Last Updated: 2026-02-15
+Version: v0.2-draft
+Status: Experimental Render Layer
+Depends-On: 01–04
+Last Updated: 2026-02-16
 
 ---
 
 # 1. Overview
 
-The Glyph System is a secondary visual layer for Syntaxis.
+The Glyph System is optional and non-authoritative.
 
-It is:
+Canonical ASCII remains authoritative for storage, training, and validation.
 
-- Optional
-- Non-phonetic
-- Structurally symbolic
-- Optimized for rapid pattern recognition
-- Designed for cognitive compression
+Glyphs provide:
+- Rapid reading
+- Visual role separation
+- Optional compression
 
-Canonical ASCII remains authoritative.
-
-Glyphs are render-layer only.
+Glyphs must map 1:1 to canonical ASCII constructs.
 
 ---
 
-# 2. Design Principles
-
-Glyphs must:
-
-- Represent grammatical role clearly
-- Be visually distinct
-- Be minimal-stroke
-- Avoid cultural appropriation of existing scripts
-- Map 1:1 to canonical ASCII markers
-
-No ambiguity permitted between glyph and ASCII form.
-
----
-
-# 3. Role Marker Glyphs
+# 2. Role Marker Glyphs (Render Only)
 
 | ASCII | Glyph | Meaning |
-|--------|--------|----------|
-| -ta | ⊙ | Topic |
-| -ka | → | Agent |
-| -mo | ◇ | Direct Object |
-| -ri | ⇢ | Indirect |
-| -se | ⌂ | Locative |
-| -nu | ⚙ | Instrument |
-
-Example:
-
-    Self ⊙
-    AI →
-    Meaning ◇
-    clarify-in-ke
-    [mdl]
+|------|-------|---------|
+| -ta  | ⊙     | Topic |
+| -ka  | →     | Agent |
+| -mo  | ◇     | Direct Object |
+| -ri  | ⇢     | Indirect |
+| -se  | ⌂     | Locative |
+| -nu  | ⚙     | Instrument |
 
 ---
 
-# 4. Number Glyph Indicators
-
-Number is indicated by superscript markers:
+# 3. Number Glyphs (Render Only)
 
 | ASCII | Glyph |
-|--------|--------|
-| -un | ¹ |
-| -du | ² |
-| -pl | ³ |
+|------|-------|
+| -un  | ¹ |
+| -du  | ² |
+| -pl  | ³ |
 
 Example:
-
     Self² ⊙
 
-Meaning: Dual self (human + AI)
+---
+
+# 4. Event/State Glyphs (Render Only)
+
+| ASCII | Glyph |
+|------|-------|
+| @E   | ⚡ |
+| @S   | ▭ |
+
+Example render:
+    Rain ⚡ ⊙ begin…
+    System ▭ ⊙ stable…
 
 ---
 
-# 5. Aspect Glyphs
+# 5. Procedural Mode Render (Optional)
 
-Aspect may optionally be shown via diacritic overlay.
+Reserved prefixes may render as compact symbols:
 
-| ASCII | Glyph |
-|--------|--------|
-| -in | ~ |
-| -tae | ✓ |
-| -li | ? |
-| -ra | ↑ |
-| -su | ∞ |
+| ASCII prefix | Render glyph |
+|------------|--------------|
+| Proc-ta     | ⧉ |
+| Step=n:     | n· |
+| Req:        | ⟂ |
+| Inv:        | ⊨ |
+| Out-ta      | ⇣ |
+
+Example render-only (not stored):
+    ⧉ clarify-loop…
+    1· Input… collect…
+    ⟂ Prompt… present…
+    ⊨ Meaning… preserve…
+    ⇣ summary… emit…
+
+---
+
+# 6. Classifier Render
+
+Classifier tags `term{class}` may render as small corner tags.
+
+Canonical remains ASCII `{class}`.
 
 Example:
-
-    clarify?~ke
-
-Meaning:
-Potential + ongoing (if stacked)
-
-ASCII remains canonical:
-
-    clarify-li-in-ke
+    model{sys} → model with a “sys” tag
 
 ---
 
-# 6. Modality Glyph Indicators
+# 7. Meta Layer Glyphs (Optional)
 
 | ASCII | Glyph |
-|--------|--------|
-| -ke | ! |
-| -mi | ? |
-| -zo | ∴ |
-| -ha | ♥ |
-
-Example:
-
-    detect✓∴
-    [obs]
-
----
-
-# 7. Meta Layer Glyphs (Optional Visual Compression)
-
-Meta markers may optionally collapse to glyph shorthand.
-
-| ASCII | Glyph |
-|--------|--------|
+|------|-------|
 | [obs] | 👁 |
 | [inf] | ∵ |
 | [mdl] | ⌘ |
@@ -135,74 +104,42 @@ Meta markers may optionally collapse to glyph shorthand.
 | [hyp] | △ |
 | [emo] | ♥ |
 
-Probability:
-    [pro=.6] → .6°
-
-Confidence:
-    [conf=.7] → .7✓
-
-Example:
-
-    Model ⊙
-    err ◇
-    detect✓∴
-    ∵ .6° .7✓
-
-ASCII canonical still required in storage.
+Probability and confidence may render compactly:
+- [pro=.6] → .6°
+- [conf=.7] → .7✓
 
 ---
 
-# 8. Glyph Block Architecture (Future)
+# 8. Rendering Rules
 
-Inspired by Hangul:
-
-Potential future design:
-
-Block structure:
-
-    [Semantic Root]
-    [Number Marker]
-    [Role Marker]
-
-Stacked as geometric unit.
-
-Not implemented in v0.1.
-
----
-
-# 9. Rendering Rules
-
-- Glyphs must never replace canonical ASCII in stored corpus.
-- Glyphs are presentation-layer only.
+- Glyphs MUST NOT replace canonical ASCII in stored corpora.
 - Glyph system must be reversible to ASCII.
-- No glyph-only expressions allowed.
+- No glyph-only expressions are valid Syntaxis artifacts.
 
 ---
 
-# 10. Architectural Decision Log (ADL)
+# 9. Architectural Decision Log (ADL)
 
 ## ADL-019
 Decision: Glyph layer non-authoritative.
 Status: Approved
-Rationale: Preserve AI compatibility.
 
 ## ADL-020
 Decision: One-to-one mapping with ASCII markers.
 Status: Approved
-Rationale: Deterministic reversibility.
 
-## ADL-021
-Decision: Unicode allowed only in render layer.
+## ADL-029
+Decision: Add glyph mapping for @E/@S.
 Status: Approved
-Rationale: Avoid encoding issues.
+
+## ADL-031
+Decision: Add optional procedural render glyphs.
+Status: Approved
 
 ---
 
-# 11. Open Questions
+# 10. Open Questions
 
-- Should semantic radicals be designed?
-- Should glyph blocks be formalized?
-- Should emotional valence have dedicated symbol?
-- Should a handwritten form exist?
-
-To be resolved in future versions.
+- Should a formal block glyph architecture exist (Hangul-like)?
+- Should classifier set have standardized glyph radicals?
+- Should event subtypes have distinct glyphs?
